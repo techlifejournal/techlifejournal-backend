@@ -1,9 +1,9 @@
 from django.urls import path
 from django.urls.conf import include 
-from .views import AllArticlesList, CreateArticle 
+from .views import ArticlesList, CreateArticle 
 
 
 urlpatterns = [
-    path('article/', CreateArticle.as_view(), name='Entry'),
-    path('article/all/', AllArticlesList.as_view(), name='Articles')
+    path('article/entry', CreateArticle.as_view(), name='Entry'),
+    path('article/', ArticlesList.as_view(), name='Articles'),
 ]

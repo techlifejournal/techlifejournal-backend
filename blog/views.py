@@ -1,9 +1,12 @@
 from blog.models import Entry
+from rest_framework import filters
 from rest_framework import generics
 from .serializer import ArticleSerializer , ArticleInfoSerializer
 from django.db.models.functions import Lower
 from rest_framework.response import Response
-from rest_framework import status
+import django_filters.rest_framework
+from rest_framework import status 
+from django.contrib.postgres.search import SearchVector
 # Create your views here.
 class CreateArticle(generics.CreateAPIView):
     serializer_class = ArticleSerializer
@@ -15,8 +18,13 @@ class CreateArticle(generics.CreateAPIView):
         print(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
-class AllArticlesList(generics.ListAPIView):
+class ArticlesList(generics.ListAPIView):
     queryset = Entry.objects.order_by(Lower("headline"))
     serializer_class = ArticleInfoSerializer
+    filter_backends = [filters.OrderingFilter ,filters.SearchFilter]
+    ordering_fields = ['headlines', 'id']
+    search_fields = ['headline', 'subtopics']
+
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
+
