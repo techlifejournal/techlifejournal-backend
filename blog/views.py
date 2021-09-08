@@ -24,7 +24,6 @@ class ArticlesList(generics.ListAPIView):
     filter_backends = [filters.OrderingFilter ,filters.SearchFilter]
     ordering_fields = ['headlines', 'id']
     search_fields = ['headline', 'subtopics']
-
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
