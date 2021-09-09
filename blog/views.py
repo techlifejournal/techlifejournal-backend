@@ -7,7 +7,7 @@ from rest_framework.response import Response
 import django_filters.rest_framework
 from rest_framework import status 
 from django.contrib.postgres.search import SearchVector
-# Create your views here.
+
 class CreateArticle(generics.CreateAPIView):
     serializer_class = ArticleSerializer
     def create(self, request, *args, **kwargs):
@@ -22,8 +22,17 @@ class ArticlesList(generics.ListAPIView):
     queryset = Entry.objects.order_by(Lower("headline"))
     serializer_class = ArticleInfoSerializer
     filter_backends = [filters.OrderingFilter ,filters.SearchFilter]
-    ordering_fields = ['headlines', 'id']
+    ordering_fields = ['headline', 'id']
     search_fields = ['headline', 'subtopics']
+
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
+class GetArticle(generics.ListAPIView):
+    serializer_class = ArticleSerializer
+    def get_queryset(self):
+        queryset = Entry.objects.all()
+        _id = self.request.query_params.get('id')
+        if _id is not None:
+            queryset = queryset.filter(id=_id)
+        return queryset
