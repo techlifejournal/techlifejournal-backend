@@ -4,12 +4,11 @@ from rest_framework import generics
 from .serializer import ArticleSerializer , ArticleInfoSerializer
 from django.db.models.functions import Lower
 from rest_framework.response import Response
-import django_filters.rest_framework
 from rest_framework import status 
-from django.contrib.postgres.search import SearchVector
 
 class CreateArticle(generics.CreateAPIView):
     serializer_class = ArticleSerializer
+    queryset = Entry.objects.all()
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -24,7 +23,6 @@ class ArticlesList(generics.ListAPIView):
     filter_backends = [filters.OrderingFilter ,filters.SearchFilter]
     ordering_fields = ['headline', 'id']
     search_fields = ['headline', 'subtopics']
-
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
