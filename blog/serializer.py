@@ -1,5 +1,5 @@
 from django.db.models import fields
-from .models import Entry , Blog , Author
+from .models import Entry ,Tag
 from rest_framework import serializers
 
 class ArticleSerializer(serializers.ModelSerializer):
@@ -14,15 +14,12 @@ class CreateArticleSerializer(serializers.ModelSerializer):
 
 
 
-class BlogSerializer(serializers.ModelSerializer):
+class TagSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Blog
+        model = Tag
         fields = '__all__'
 
-class AuthorSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Author
-        fields = '__all__'
+
 
 class ArticleInfoSerializer(serializers.ModelSerializer):
     class Meta:

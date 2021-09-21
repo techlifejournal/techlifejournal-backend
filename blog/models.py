@@ -1,19 +1,14 @@
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
 from users.models import User
-class Blog(models.Model):
+class Tag(models.Model):
     name = models.CharField(max_length=100)
-    tagline = models.TextField()
+    description = models.TextField()
     def __str__(self):
         return self.name
 
-class Author(models.Model):
-    name = models.CharField(max_length=200)
-    email = models.EmailField()
-    def __str__(self):
-        return self.name
 class Entry(models.Model):
-    blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
+    Tags = models.ManyToManyField(Tag)
     headline = models.CharField(max_length=255,unique=True)
     content = models.TextField()
     subtopics = ArrayField(models.CharField(max_length=200))
