@@ -1,21 +1,15 @@
 from blog.models import Entry
 from rest_framework import filters
 from rest_framework import generics
-from .serializer import ArticleSerializer , ArticleInfoSerializer
+from .serializer import ArticleSerializer , ArticleInfoSerializer , CreateArticleSerializer
 from django.db.models.functions import Lower
 from rest_framework.response import Response
 from rest_framework import status 
 
 class CreateArticle(generics.CreateAPIView):
-    serializer_class = ArticleSerializer
+    serializer_class = CreateArticleSerializer
     queryset = Entry.objects.all()
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        print(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
 
 class ArticlesList(generics.ListAPIView):
     serializer_class = ArticleInfoSerializer

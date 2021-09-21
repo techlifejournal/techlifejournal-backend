@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
+from users.models import User
 class Blog(models.Model):
     name = models.CharField(max_length=100)
     tagline = models.TextField()
@@ -18,9 +19,10 @@ class Entry(models.Model):
     subtopics = ArrayField(models.CharField(max_length=200))
     pub_date = models.DateField(auto_now_add=True)
     mod_date = models.DateField(auto_now_add= True)
-    authors = models.ManyToManyField(Author)
-    number_of_comments = models.IntegerField()
-    rating = models.IntegerField()
+    authors = models.ManyToManyField(User)
+    number_of_comments = models.IntegerField(default=0)
+    views = models.IntegerField(default=0)
+    rating = models.IntegerField(default=-1)
     def __str__(self):
         return self.headline
         

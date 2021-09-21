@@ -7,6 +7,12 @@ class ArticleSerializer(serializers.ModelSerializer):
         model = Entry
         fields = "__all__"
 
+class CreateArticleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Entry
+        fields = ('headline' , 'content', 'blog' , 'authors')
+
+
 
 class BlogSerializer(serializers.ModelSerializer):
     class Meta:
