@@ -10,7 +10,7 @@ class ArticleSerializer(serializers.ModelSerializer):
 class CreateArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Entry
-        fields = ('headline' , 'content', 'blog' , 'authors')
+        fields = ('headline' , 'subtopics','content', 'Tags' , 'authors')
 
 
 

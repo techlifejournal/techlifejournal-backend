@@ -1,3 +1,4 @@
+from django.db.models import fields
 from rest_framework import serializers
 from users.models import User
 
@@ -20,3 +21,8 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
+
+class UserInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('email' , 'full_name' , 'user_name' , 'about')

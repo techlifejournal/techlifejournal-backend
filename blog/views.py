@@ -1,3 +1,4 @@
+from rest_framework.views import APIView
 from blog.models import Entry
 from rest_framework import filters
 from rest_framework import generics
@@ -5,12 +6,29 @@ from .serializer import ArticleSerializer , ArticleInfoSerializer , CreateArticl
 from django.db.models.functions import Lower
 from rest_framework.response import Response
 from rest_framework import status 
+from blog.Scraper.title import gettitles
 
-class CreateArticle(generics.CreateAPIView):
-    serializer_class = CreateArticleSerializer
+class CreateArticle(APIView):
     queryset = Entry.objects.all()
-
-
+    def post(self, request, format=None):
+        data = request.data.dict()
+        try:    
+            titles = gettitles(data["content"])
+            authour = [self.request.user.id]
+            data["subtopics"] = titles
+            data["Tags"] = [1]
+            data["authors"] = authour
+        except :
+            return Response({
+                "error" : "headline , content and Tags field required " 
+            } , status = status.HTTP_400_BAD_REQUEST)
+        
+        serializer = CreateArticleSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+ 
 class ArticlesList(generics.ListAPIView):
     serializer_class = ArticleInfoSerializer
     filter_backends = [filters.OrderingFilter ,filters.SearchFilter]
