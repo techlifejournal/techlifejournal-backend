@@ -16,7 +16,7 @@ class CreateArticle(APIView):
             titles = gettitles(data["content"])
             authour = [self.request.user.id]
             data["subtopics"] = titles
-            data["Tags"] = [1]
+            data["Tags"] = [int(i) for i in data["Tags"]]
             data["authors"] = authour
         except :
             return Response({
