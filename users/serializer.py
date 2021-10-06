@@ -30,4 +30,4 @@ class UserInfoSerializer(serializers.ModelSerializer):
 class AuthorDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('full_name' , 'user_name')
+        fields = ('id','full_name' , 'user_name')

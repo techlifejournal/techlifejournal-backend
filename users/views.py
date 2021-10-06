@@ -44,6 +44,7 @@ class UserDetails(generics.ListAPIView):
         return User.objects.filter(id = user.id)
 
 class GetAuthor(generics.ListAPIView):
+    permission_classes = [AllowAny]
     serializer_class = AuthorDetailsSerializer
     def get_queryset(self):
         queryset = User.objects.all()
