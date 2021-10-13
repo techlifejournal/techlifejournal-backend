@@ -12,6 +12,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from blog.Scraper.title import gettitles
 from rest_framework.permissions import BasePermission, IsAuthenticated
+from users.models import User
 
 
 class CreateArticle(APIView):
@@ -65,8 +66,16 @@ class GetArticle(generics.ListAPIView):
         queryset = Entry.objects.all()
         _id = self.request.query_params.get("id")
         _blog = self.request.query_params.get("blog")
+        uid = self.request.query_params.get("uid")
+        uname = self.request.query_params.get("uname")
         if _id is not None:
             queryset = queryset.filter(id=_id)
         if _blog is not None:
             queryset = queryset.filter(blog=_blog)
+        if uid is not None:
+            user = User.objects.get(id=uid)
+            queryset = queryset.filter(authors=user)
+        if uname is not None:
+            user = User.objects.get(username=uname)
+            queryset = queryset.filter(authors=user)
         return queryset
