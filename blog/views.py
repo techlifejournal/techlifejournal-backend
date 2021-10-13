@@ -76,6 +76,6 @@ class GetArticle(generics.ListAPIView):
             user = User.objects.get(id=uid)
             queryset = queryset.filter(authors=user)
         if uname is not None:
-            user = User.objects.get(username=uname)
+            user = User.objects.get(user_name=uname)
             queryset = queryset.filter(authors=user)
         return queryset
