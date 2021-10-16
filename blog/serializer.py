@@ -1,28 +1,27 @@
 from django.db.models import fields
-from .models import Entry ,Tag
+from .models import Entry, Tag
 from rest_framework import serializers
+
 
 class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Entry
         fields = "__all__"
 
+
 class CreateArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Entry
-        fields = ('headline' , 'subtopics','content', 'Tags' , 'authors')
-
+        fields = ("headline", "subtopics", "content", "Tags", "authors")
 
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
-        fields = '__all__'
-
+        fields = "__all__"
 
 
 class ArticleInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Entry
-        fields = ("id", "headline" , "subtopics")
-        
+        fields = ("id", "headline", "subtopics", "pub_date", "rating", "Tags")
