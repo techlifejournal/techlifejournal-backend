@@ -12,7 +12,7 @@ class ArticleSerializer(serializers.ModelSerializer):
 class CreateArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Entry
-        fields = ("headline", "subtopics", "content", "Tags", "authors")
+        fields = ("headline", "subtopics", "content", "tags", "authors")
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -24,4 +24,4 @@ class TagSerializer(serializers.ModelSerializer):
 class ArticleInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Entry
-        fields = ("id", "headline", "subtopics", "pub_date", "rating", "Tags")
+        fields = ("id", "headline", "subtopics", "pub_date", "rating", "tags")

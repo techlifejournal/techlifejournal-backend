@@ -1,13 +1,18 @@
 from django.urls import path
-from .views import UserCreate,GetAuthor, BlacklistTokenUpdateView, UserDetails
+from .views import (
+    UserCreate,
+    GetAuthor,
+    BlacklistTokenUpdateView,
+    UserDetails,
+    GoogleLoginView,
+)
 
-app_name = 'users'
+app_name = "users"
 
 urlpatterns = [
-    path('create/', UserCreate.as_view(), name="create_user"),
-    path('logout/blacklist/', BlacklistTokenUpdateView.as_view(),
-         name='blacklist'),
-    path('', UserDetails.as_view(),
-         name='blacklist'),
-     path('authors/', GetAuthor.as_view() ,name = "authors" )
+    path("create/", UserCreate.as_view(), name="create_user"),
+    path("logout/blacklist/", BlacklistTokenUpdateView.as_view(), name="blacklist"),
+    path("", UserDetails.as_view(), name="blacklist"),
+    path("authors/", GetAuthor.as_view(), name="authors"),
+    path("google/", GoogleLoginView.as_view(), name="google"),
 ]

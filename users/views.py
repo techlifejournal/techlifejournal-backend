@@ -8,6 +8,14 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import generics
 from users.models import User
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from dj_rest_auth.registration.views import SocialLoginView
+from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+from django.conf import settings
+import environ
+
+env = environ.Env()
+environ.Env.read_env()
 
 
 class UserCreate(generics.CreateAPIView):
@@ -44,7 +52,8 @@ class UserDetails(generics.ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        return User.objects.filter(id=user.id)
+        user_details = User.objects.filter(id=user.id)
+        return user_details
 
 
 class GetAuthor(generics.ListAPIView):
@@ -61,3 +70,10 @@ class GetAuthor(generics.ListAPIView):
         if uname is not None:
             return User.objects.filter(user_name=uname)
         return queryset
+
+
+class GoogleLoginView(SocialLoginView):
+    authentication_classes = []
+    adapter_class = GoogleOAuth2Adapter
+    callback_url = env("CALLBACK_URL")
+    client_class = OAuth2Client
