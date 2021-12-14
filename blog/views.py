@@ -21,12 +21,13 @@ class CreateArticle(APIView):
 
     def post(self, request, format=None):
         data = request.data
-        print(data)
         try:
             titles = gettitles(data["content"])
             authour = [self.request.user.id]
+            if not len(titles):
+                titles = [data["headline"]]
             data["subtopics"] = titles
-            data["Tags"] = [int(i) for i in [1]]
+            data["tags"] = [int(i) for i in [1]]
             data["authors"] = authour
         except Exception as e:
             print(e)

@@ -52,7 +52,8 @@ class UserDetails(generics.ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        return User.objects.filter(id=user.id)
+        user_details = User.objects.filter(id=user.id)
+        return user_details
 
 
 class GetAuthor(generics.ListAPIView):
